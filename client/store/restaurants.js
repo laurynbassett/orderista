@@ -1,13 +1,22 @@
 import axios from 'axios'
 
 // ---------- INITIAL STATE ---------- //
-const initialState = []
+const initialState = {
+  restaurants: [],
+  selectedRestaurant: {},
+}
 
 // ---------- ACTION TYPES ---------- //
 const GET_RESTAURANTS = 'GET_RESTAURANTS'
+const SET_RESTAURANT = 'SET_RESTAURANT'
 
 // ---------- ACTION CREATORS ---------- //
 const getRestaurants = (restaurants) => ({type: GET_RESTAURANTS, restaurants})
+
+const setSelectedRestaurant = (restaurant) => ({
+  type: SET_RESTAURANT,
+  restaurant,
+})
 
 // ---------- THUNK CREATORS ---------- //
 export const fetchRestaurants = () => async (dispatch) => {
@@ -19,11 +28,17 @@ export const fetchRestaurants = () => async (dispatch) => {
   }
 }
 
+export const setRestaurant = (restaurant) => (dispatch) => {
+  dispatch(setSelectedRestaurant(restaurant))
+}
+
 // ---------- REDUCER ---------- //
 export default function (state = initialState, action) {
   switch (action.type) {
     case GET_RESTAURANTS:
-      return action.restaurants
+      return {...state, restaurants: action.restaurants}
+    case SET_RESTAURANT:
+      return {...state, selectedRestaurant: action.restaurant}
     default:
       return state
   }

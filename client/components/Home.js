@@ -24,21 +24,14 @@ const Home = () => {
         r.image = rInfo.thumb
         r.longitude = rInfo.location.longitude
         r.latitude = rInfo.location.latitude
-        r.address = rInfo.location.address
+        r.info = rInfo
         a.push(r)
         return a
       }, [])
       setRestaurants(fetchedRestaurants)
-
-      const allCuisines = restaurants.reduce((a, c) => {
-        c.cuisines.forEach((r) => {
-          if (!a.includes(r)) a.push(r)
-        })
-        return a
-      }, [])
-      setCuisines(allCuisines)
     }
     fetchRestaurants()
+    setCuisines(cuisineList)
   }, [restaurants.length, cuisines.length])
 
   const handleChange = (evt) => {

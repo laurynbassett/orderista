@@ -14,9 +14,30 @@ const config = {
 // GET /restaurants
 router.get('/', async (req, res, next) => {
   try {
-    const {data} = await axios.get('/search?entity_id=292&entity_type=city')
-    console.log('LGTH', data.restaurants.length)
-    res.json(data.restaurants)
+    const a = await axios.get(
+      '/search?entity_id=292&entity_type=city&start=0&count=20'
+    )
+    const b = await axios.get(
+      '/search?entity_id=292&entity_type=city&start=20&count=20'
+    )
+    const c = await axios.get(
+      '/search?entity_id=292&entity_type=city&start=40&count=20'
+    )
+    const d = await axios.get(
+      '/search?entity_id=292&entity_type=city&start=60&count=20'
+    )
+    const e = await axios.get(
+      '/search?entity_id=292&entity_type=city&start=80&count=20'
+    )
+    const restaurants = [
+      ...a.data.restaurants,
+      ...b.data.restaurants,
+      ...c.data.restaurants,
+      ...d.data.restaurants,
+      ...e.data.restaurants,
+    ]
+    console.log('LGTH', restaurants.length)
+    res.json(restaurants)
   } catch (err) {
     next(err)
   }

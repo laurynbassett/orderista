@@ -1,32 +1,34 @@
 import React, {useState, useEffect} from 'react'
-import ReactMapboxGl, {Layer, Marker, Feature} from 'react-mapbox-gl'
+import {connect} from 'react-redux'
+import ReactMapboxGl, {Cluster, Layer, Marker, Feature} from 'react-mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 
 import {accessToken} from './access-token'
 import MapPopup from './MapPopup'
 
+import {setRestaurant} from '../store/restaurants'
+
 const MapboxGLMap = ReactMapboxGl({accessToken})
 
 const Map = (props) => {
+  const {setSelected, selectedCategory, restaurants} = props
   const [center, setCenter] = useState([-87.6298, 41.8781])
-  const [pinRestaurant, setPinRestaurant] = useState([])
   const [zoom, setZoom] = useState([11])
   const [selectedPin, setSelectedPin] = useState(null)
-
-  const {selectedCategory, restaurants} = props
 
   const handlePinClick = (evt) => {
     const selected = restaurants.find(
       (el) => el.name === evt.feature.properties.name
     )
+    setSelected(selected)
     setSelectedPin(selected)
-    console.log('SELLL', selected)
     setCenter([Number(selected.longitude), Number(selected.latitude)])
     setZoom([12])
     setTimeout(() => {
       setSelectedPin(null)
     }, 5000)
   }
+
   return (
     <MapboxGLMap
       center={center}
@@ -38,7 +40,7 @@ const Map = (props) => {
       }}
       className="mapContainer"
     >
-      {selectedPin && <MapPopup restaurant={selectedPin} />}
+      {selectedPin && <MapPopup />}
 
       <Layer type="symbol" id="marker" layout={{'icon-image': 'restaurant-15'}}>
         {selectedCategory &&
@@ -71,4 +73,7 @@ const Map = (props) => {
   )
 }
 
-export default Map
+const mapDispatch = (dispatch) => ({
+  setSelected: (selected) => dispatch(setRestaurant(selected)),
+})
+export default connect(null, mapDispatch)(Map)

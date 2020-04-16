@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import {Home, Login, Signup, UserHome} from './components'
+import {Home, Login, MapPopup, Signup, UserHome} from './components'
 import {fetchMe} from './store/user'
 
 // ---------- COMPONENT ---------- //
@@ -17,6 +17,7 @@ const Routes = ({isLoggedIn, dispatch}) => {
       {/* Routes available to all visitors */}
       <Route path="/login" component={Login} />
       <Route path="/signup" component={Signup} />
+      <Route path="/detail" component={MapPopup} />
       {isLoggedIn && (
         <Switch>
           {/* Routes only available after logging in */}
