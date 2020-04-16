@@ -1,0 +1,42 @@
+body {
+  font-family: 'Manrope', sans-serif;
+  letter-spacing: 0.08em;
+  margin: 1em;
+}
+
+h1 {
+  letter-spacing: 0.12em;
+}
+
+a {
+  text-decoration: none;
+}
+
+label {
+  display: block;
+}
+
+nav a {
+  display: inline-block;
+  margin: 1em;
+}
+
+form div {
+  margin: 1em;
+  display: inline-block;
+}
+
+.mapContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}

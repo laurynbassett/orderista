@@ -1,5 +1,5 @@
 {
-	"name": "boilermaker",
+	"name": "foodmap",
 	"version": "1.0.0",
 	"description": "Boilerplate code to get started",
 	"main": "index.js",
@@ -39,12 +39,16 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"@mapbox/react-geocoder": "^2.5.0",
+		"@material-ui/core": "^4.9.10",
+		"@material-ui/icons": "^4.9.1",
 		"axios": "^0.19.2",
 		"compression": "^1.7.4",
 		"connect-session-sequelize": "^6.1.1",
 		"express": "^4.17.1",
 		"express-session": "^1.17.0",
 		"history": "^4.10.1",
+		"mapbox-gl": "^1.9.1",
 		"morgan": "^1.10.0",
 		"passport": "^0.4.1",
 		"passport-google-oauth": "^2.0.0",
@@ -53,13 +57,16 @@
 		"prop-types": "^15.7.2",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
+		"react-mapbox-gl": "^4.8.3",
+		"react-places-autocomplete": "^7.2.1",
 		"react-redux": "^7.2.0",
 		"react-router-dom": "^5.1.2",
 		"redux": "^4.0.5",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0",
 		"sequelize": "^5.21.6",
-		"socket.io": "^2.3.0"
+		"socket.io": "^2.3.0",
+		"zomato.js": "^1.1.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.9.0",
