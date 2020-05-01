@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import {connect} from 'react-redux'
-import ReactMapboxGl, {Cluster, Layer, Marker, Feature} from 'react-mapbox-gl'
-import mapboxgl from 'mapbox-gl'
+import {connect, useSelector} from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import ReactMapboxGl, {Layer, Feature} from 'react-mapbox-gl'
 
 import {accessToken} from './access-token'
 import MapPopup from './MapPopup'
@@ -11,28 +11,44 @@ import {setRestaurant} from '../store/restaurants'
 const MapboxGLMap = ReactMapboxGl({accessToken})
 
 const Map = (props) => {
-  const {setSelected, selectedCategory, restaurants} = props
+  const {
+    executeScroll,
+    restaurants,
+    setSelectedRestaurant,
+    selectedCategory,
+  } = props
+
+  const selectedRestaurant = useSelector(
+    (state) => state.restaurants.selectedRestaurant
+  )
+
   const [center, setCenter] = useState([-87.6298, 41.8781])
   const [zoom, setZoom] = useState([11])
-  const [selectedPin, setSelectedPin] = useState(null)
+
+  useEffect(() => {
+    if (Object.keys(selectedRestaurant).length > 0) {
+      setCenter([
+        Number(selectedRestaurant.longitude),
+        Number(selectedRestaurant.latitude),
+      ])
+      setZoom([12])
+    }
+  }, [selectedRestaurant])
 
   const handlePinClick = (evt) => {
     const selected = restaurants.find(
       (el) => el.name === evt.feature.properties.name
     )
-    setSelected(selected)
-    setSelectedPin(selected)
+    setSelectedRestaurant(selected)
     setCenter([Number(selected.longitude), Number(selected.latitude)])
     setZoom([12])
-    setTimeout(() => {
-      setSelectedPin(null)
-    }, 5000)
   }
 
   return (
     <MapboxGLMap
       center={center}
       zoom={zoom}
+      // eslint-disable-next-line react/style-prop-object
       style="mapbox://styles/mapbox/light-v10"
       containerStyle={{
         height: '70vh',
@@ -40,11 +56,11 @@ const Map = (props) => {
       }}
       className="mapContainer"
     >
-      {selectedPin && <MapPopup />}
+      {selectedRestaurant && <MapPopup executeScroll={executeScroll} />}
 
       <Layer type="symbol" id="marker" layout={{'icon-image': 'restaurant-15'}}>
         {selectedCategory &&
-          restaurants.reduce((a, c, i) => {
+          restaurants.reduce((a, c) => {
             if (
               selectedCategory === 'All' ||
               c.cuisines.includes(selectedCategory)
@@ -58,7 +74,7 @@ const Map = (props) => {
               }
               const marker = (
                 <Feature
-                  key={i}
+                  key={c.id}
                   coordinates={[Number(c.longitude), Number(c.latitude)]}
                   properties={props}
                   onClick={handlePinClick}
@@ -73,7 +89,13 @@ const Map = (props) => {
   )
 }
 
-const mapDispatch = (dispatch) => ({
-  setSelected: (selected) => dispatch(setRestaurant(selected)),
+const mapState = (state) => ({
+  restaurants: state.restaurants.restaurants,
+  // selectedRestaurant: state.restaurants.selectedRestaurant,
+  selectedCategory: state.restaurants.selectedCategory,
 })
-export default connect(null, mapDispatch)(Map)
+
+const mapDispatch = (dispatch) => ({
+  setSelectedRestaurant: (selected) => dispatch(setRestaurant(selected)),
+})
+export default withRouter(connect(mapState, mapDispatch)(Map))

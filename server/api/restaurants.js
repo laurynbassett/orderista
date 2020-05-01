@@ -35,8 +35,24 @@ router.get('/', async (req, res, next) => {
       ...c.data.restaurants,
       ...d.data.restaurants,
       ...e.data.restaurants,
-    ]
-    console.log('LGTH', restaurants.length)
+    ].map((el) => {
+      el = el.restaurant
+      el.image = el.thumb
+      el.longitude = el.location.longitude
+      el.latitude = el.location.latitude
+      el.address = el.location.address
+      el.locality = el.location.locality
+      el.aggregateRating = el.user_rating.aggregate_rating
+      el.ratingText = el.user_rating.rating_text
+      el.priceRange = el.price_range
+      el.reviewCount = el.all_reviews_count
+      el.votes = el.user_rating.votes
+      el.photoCount = el.photo_count
+      el.cuisines = el.cuisines.includes(', ')
+        ? el.cuisines.split(', ')
+        : [el.cuisines]
+      return el
+    })
     res.json(restaurants)
   } catch (err) {
     next(err)

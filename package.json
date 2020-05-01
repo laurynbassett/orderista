@@ -42,6 +42,7 @@
 		"@mapbox/react-geocoder": "^2.5.0",
 		"@material-ui/core": "^4.9.10",
 		"@material-ui/icons": "^4.9.1",
+		"@material-ui/lab": "^4.0.0-alpha.50",
 		"axios": "^0.19.2",
 		"compression": "^1.7.4",
 		"connect-session-sequelize": "^6.1.1",
@@ -61,11 +62,12 @@
 		"react-places-autocomplete": "^7.2.1",
 		"react-redux": "^7.2.0",
 		"react-router-dom": "^5.1.2",
+		"react-router-hash-link": "^1.2.2",
+		"react-scroll": "^1.7.16",
 		"redux": "^4.0.5",
 		"redux-logger": "^3.0.6",
 		"redux-thunk": "^2.3.0",
 		"sequelize": "^5.21.6",
-		"socket.io": "^2.3.0",
 		"zomato.js": "^1.1.0"
 	},
 	"devDependencies": {

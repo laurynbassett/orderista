@@ -8,7 +8,7 @@ import store from './store'
 import history from './history'
 
 // est socket connection
-import './socket'
+// import './socket'
 
 ReactDOM.render(
   <Provider store={store}>

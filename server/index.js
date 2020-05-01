@@ -5,7 +5,7 @@ const compression = require('compression')
 const session = require('express-session')
 const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const socketio = require('socket.io')
+// const socketio = require('socket.io')
 
 const db = require('./db')
 const User = require('./db/models/user')
@@ -92,8 +92,8 @@ Listening on port ${PORT}
 http://localhost:${PORT}/`)
   })
 
-  const io = socketio(server)
-  require('./socket')(io)
+  // const io = socketio(server)
+  // require('./socket')(io)
 }
 
 const syncDb = () => db.sync()

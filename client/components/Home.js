@@ -1,57 +1,92 @@
-import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import React, {useEffect, useRef, useState} from 'react'
+import {connect} from 'react-redux'
+import List from '@material-ui/core/List'
 
 import SelectDropdown from './Select'
 import Map from './Map'
-import cuisineList from '../../server/api/cuisines'
+import RestaurantListItem from './RestaurantListItem'
+import {setRestaurant, setCategory} from '../store/restaurants'
+import RestaurantDetail from './RestaurantDetail'
 
-const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [restaurants, setRestaurants] = useState([])
-  const [cuisines, setCuisines] = useState([])
+const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop)
 
-  useEffect(() => {
-    const fetchRestaurants = async () => {
-      const {data} = await axios.get('/api/restaurants')
+// ---------- COMPONENT ---------- //
+const Home = (props) => {
+  const {
+    restaurants,
+    selectedRestaurant,
+    selectedCategory,
+    setSelectedRestaurant,
+    setSelectedCategory,
+  } = props
 
-      const fetchedRestaurants = data.reduce((a, c) => {
-        const rInfo = c.restaurant
-        const r = {}
-        r.cuisines = rInfo.cuisines.includes(',')
-          ? rInfo.cuisines.split(', ')
-          : [rInfo.cuisines]
-        r.name = rInfo.name
-        r.image = rInfo.thumb
-        r.longitude = rInfo.location.longitude
-        r.latitude = rInfo.location.latitude
-        r.info = rInfo
-        a.push(r)
-        return a
-      }, [])
-      setRestaurants(fetchedRestaurants)
-    }
-    fetchRestaurants()
-    setCuisines(cuisineList)
-  }, [restaurants.length, cuisines.length])
+  const handleChange = (evt) => setSelectedCategory(evt.target.value)
 
-  const handleChange = (evt) => {
-    setSelectedCategory(evt.target.value)
-  }
+  const handleClick = (evt) => setSelectedRestaurant(evt)
+
+  const myRef = useRef(null)
+
+  const executeScroll = () => scrollToRef(myRef)
 
   return (
-    <div>
-      <div className="row">
-        <SelectDropdown
-          handleChange={handleChange}
-          selectedCategory={selectedCategory}
-          cuisines={cuisines}
-        />
+    <div className="home-container">
+      <div className="home-row-1">
+        <SelectDropdown handleChange={handleChange} />
       </div>
-      <div className="row">
-        <Map restaurants={restaurants} selectedCategory={selectedCategory} />
+      <div className="home-row-2">
+        <div className="home-row-2-col-1">
+          <Map
+            selectedCategory={selectedCategory}
+            executeScroll={executeScroll}
+          />
+        </div>
+        <div className="home-row-2-col-2">
+          {restaurants && (
+            <div>
+              <List
+                className="muiList"
+                style={{maxHeight: '68vh', overflow: 'scroll'}}
+              >
+                {restaurants
+                  .filter((el) =>
+                    selectedCategory !== 'All'
+                      ? el.cuisines.includes(selectedCategory)
+                      : el.cuisines
+                  )
+                  .map((restaurant) => (
+                    <RestaurantListItem
+                      key={restaurant.id}
+                      restaurant={restaurant}
+                      handleClick={handleClick}
+                    />
+                  ))}
+              </List>
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="home-row-3" id="restaurant-detail-id">
+        {selectedRestaurant && (
+          <RestaurantDetail
+            refProp={myRef}
+            name="restaurantDetail"
+            id="restaurantDetail"
+          />
+        )}
       </div>
     </div>
   )
 }
 
-export default Home
+const mapState = (state) => ({
+  restaurants: state.restaurants.restaurants,
+  selectedRestaurant: state.restaurants.selectedRestaurant,
+  selectedCategory: state.restaurants.selectedCategory,
+})
+
+const mapDispatch = (dispatch) => ({
+  setSelectedRestaurant: (selected) => dispatch(setRestaurant(selected)),
+  setSelectedCategory: (selected) => dispatch(setCategory(selected)),
+})
+
+export default connect(mapState, mapDispatch)(Home)

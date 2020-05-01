@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
+import {connect} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
+
+// import cuisineList from '../../server/api/cuisines';
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -30,8 +33,8 @@ const SelectDropdown = (props) => {
           label="category"
         >
           <MenuItem value="All">All</MenuItem>
-          {cuisines.sort().map((cuisine, i) => (
-            <MenuItem key={i} value={cuisine}>
+          {cuisines.sort().map((cuisine) => (
+            <MenuItem key={cuisine} value={cuisine}>
               {cuisine}
             </MenuItem>
           ))}
@@ -41,4 +44,9 @@ const SelectDropdown = (props) => {
   )
 }
 
-export default SelectDropdown
+const mapState = (state) => ({
+  cuisines: state.restaurants.cuisines,
+  selectedCategory: state.restaurants.selectedCategory,
+})
+
+export default connect(mapState)(SelectDropdown)
