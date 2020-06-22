@@ -219,10 +219,10 @@ ul.MuiList-root li:active {
 
 .single-restaurant .location p {
   font-family: 'Open Sans';
-  margin-top: 1em;
+  /* margin-top: 1em; */
 }
 
-.single-restaurant .hours p {
+.single-restaurant .hours {
   font-family: 'Open Sans';
   margin-top: 1.5em;
 }

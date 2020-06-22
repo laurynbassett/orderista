@@ -3,3 +3,4 @@ bundle.js
 bundle.js.map
 localSecrets.js
 access-token.js
+restaurants-seed.js

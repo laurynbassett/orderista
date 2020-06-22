@@ -60,7 +60,13 @@ const SingleRestaurant = (props) => {
                 <div className="hours">
                   <p>
                     <span className="title">Hours: </span>
-                    {restaurant.timings.split(', ').join('\n')}
+                    {restaurant.timings.split('), ').map((time, i) => {
+                      if (i < restaurant.timings.split('), ').length - 1) {
+                        return <p key={i}>{time + ')'}</p>
+                      } else {
+                        return <p key={i}>{time}</p>
+                      }
+                    })}
                   </p>
                 </div>
               </div>
