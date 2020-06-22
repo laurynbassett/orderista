@@ -10,7 +10,7 @@ I used React, Redux, Express, Sequelize and PostgreSQL as the basis for Orderist
 
 ## Screenshots
 
-![Home Page](/screenshots/home.png)
-![Single Restaurant Page](/screenshots/single-restaurant.png)
+![Home Page](/public/screenshots/home.png)
+![Single Restaurant Page](/public/screenshots/single-restaurant.png)
 
 Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
