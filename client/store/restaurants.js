@@ -33,11 +33,25 @@ const setSelectedCategory = (category) => ({
 // ---------- THUNK CREATORS ---------- //
 export const fetchRestaurants = () => async (dispatch) => {
   try {
-    const {data} = await axios.get('/api/restaurants')
-    dispatch(getRestaurants(data || initialState))
-    dispatch(getCuisines(data))
+    console.log('FETCHING')
+    // const { data } = await axios.get('/api/restaurants')
+    // console.log('FETCHED RESTAURANTS', data)
+    // dispatch(getRestaurants(data || initialState))
+    // dispatch(getCuisines(data))
+    dispatch(getRestaurants(restaurantsSeed))
   } catch (err) {
     console.error(err)
+  }
+}
+
+export const fetchRestaurant = (restaurantId) => async (dispatch) => {
+  try {
+    console.log('FETCHING RESTAURANT', restaurantId)
+    const {data} = await axios.get(`/api/restaurants/${restaurantId}`)
+    console.log('FETCHED RESTAURANT', data)
+    dispatch(setSelectedRestaurant(data))
+  } catch (err) {
+    console.error('ERROR FETCHING RESTAURANT ', err)
   }
 }
 

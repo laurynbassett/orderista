@@ -16,10 +16,10 @@ const RestaurantListItem = (props) => {
         <div className="row">
           <div className="product-detail">
             {restaurant.image && (
-              <img src={restaurant.image} className="product-detail-image" />
+              <img src={restaurant.image} className="image" />
             )}
 
-            <div className="product-detail-text">
+            <div className="text">
               <div className="name">{restaurant.name}</div>
               <div className="address">{restaurant.address}</div>
             </div>

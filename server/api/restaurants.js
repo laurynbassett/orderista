@@ -36,6 +36,7 @@ router.get('/', async (req, res, next) => {
       ...d.data.restaurants,
       ...e.data.restaurants,
     ].map((el) => {
+      console.log('EL', el.restaurant)
       el = el.restaurant
       el.image = el.thumb
       el.longitude = el.location.longitude
@@ -54,6 +55,35 @@ router.get('/', async (req, res, next) => {
       return el
     })
     res.json(restaurants)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:restaurantId', async (req, res, next) => {
+  try {
+    console.log('REQ', req.params.restaurantId)
+    const {data} = await axios.get(
+      `/restaurant?res_id=${req.params.restaurantId}`
+    )
+    let restaurant = data
+    restaurant.image = restaurant.thumb
+    restaurant.longitude = restaurant.location.longitude
+    restaurant.latitude = restaurant.location.latitude
+    restaurant.address = restaurant.location.address
+    restaurant.locality = restaurant.location.locality
+    restaurant.aggregateRating = restaurant.user_rating.aggregate_rating
+    restaurant.ratingText = restaurant.user_rating.rating_text
+    restaurant.priceRange = restaurant.price_range
+    restaurant.reviewCount = restaurant.all_reviews_count
+    restaurant.votes = restaurant.user_rating.votes
+    restaurant.photoCount = restaurant.photo_count
+    restaurant.cuisines = restaurant.cuisines.includes(', ')
+      ? restaurant.cuisines.split(', ')
+      : [restaurant.cuisines]
+    console.log('FETCHED RESTAURANT', restaurant)
+
+    res.json(restaurant)
   } catch (err) {
     next(err)
   }

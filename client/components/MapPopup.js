@@ -3,14 +3,15 @@ import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
 import {Popup} from 'react-mapbox-gl'
 import {makeStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import {Link} from 'react-scroll'
-import history from '../history'
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from '@material-ui/core'
 
+import history from '../history'
 import {setRestaurant} from '../store/restaurants'
 
 const useStyles = makeStyles(() => ({
@@ -23,9 +24,19 @@ const useStyles = makeStyles(() => ({
   },
   content: {
     flex: '1 0 auto',
+    fontFamily: 'Open Sans',
   },
   cover: {
     width: 151,
+  },
+  h6: {
+    fontFamily: 'Poppins',
+    fontWeight: '300',
+  },
+  button: {
+    fontFamily: 'Open Sans',
+    fontWeight: '300',
+    color: '#8a8a8a',
   },
 }))
 
@@ -34,7 +45,8 @@ const MapPopup = (props) => {
   const classes = useStyles()
 
   const handleClick = () => {
-    history.push(`/restaurants/${selected.id}`)
+    const restaurantId = selected.id
+    history.push(`/${restaurantId}`)
     clearSelected()
   }
 
@@ -52,15 +64,25 @@ const MapPopup = (props) => {
         <Card className={classes.root}>
           <div className={classes.details}>
             <CardContent className={classes.content}>
-              <Typography variant="h6" component="h6">
+              <Typography className={classes.h6} variant="h6" component="h6">
                 {selected.name}
               </Typography>
 
-              <Button type="button" size="small" onClick={executeScroll}>
-                see details
+              <Button
+                className={classes.button}
+                type="button"
+                size="small"
+                onClick={executeScroll}
+              >
+                quick view
               </Button>
-              <Button type="button" size="small" onClick={handleClick}>
-                more info
+              <Button
+                className={classes.button}
+                type="button"
+                size="small"
+                onClick={handleClick}
+              >
+                see details
               </Button>
             </CardContent>
           </div>

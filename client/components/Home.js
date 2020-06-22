@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useRef} from 'react'
 import {connect} from 'react-redux'
 import List from '@material-ui/core/List'
 
@@ -28,10 +28,25 @@ const Home = (props) => {
 
   const executeScroll = () => scrollToRef(myRef)
 
+  // get list of restaurant cuisines from restaurants
+  const cuisines = restaurants.reduce((arr, restaurant) => {
+    restaurant.cuisines.forEach((cuisine) => {
+      if (!arr.includes(cuisine)) {
+        arr.push(cuisine)
+      }
+    })
+    return arr
+  }, [])
+  console.log('CUISINES', cuisines)
+
   return (
     <div className="home-container">
       <div className="home-row-1">
-        <SelectDropdown handleChange={handleChange} />
+        <SelectDropdown
+          handleChange={handleChange}
+          cuisines={cuisines}
+          selectedCategory={selectedCategory}
+        />
       </div>
       <div className="home-row-2">
         <div className="home-row-2-col-1">
@@ -71,6 +86,7 @@ const Home = (props) => {
             refProp={myRef}
             name="restaurantDetail"
             id="restaurantDetail"
+            selectedRestaurant={selectedRestaurant}
           />
         )}
       </div>

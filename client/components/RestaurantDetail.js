@@ -1,8 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 import {makeStyles} from '@material-ui/core/styles'
 import GridList from '@material-ui/core/GridList'
 import GridListTile from '@material-ui/core/GridListTile'
+
+import {setRestaurant} from '../store'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,28 +30,35 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const RestaurantDetail = (props) => {
-  const {restaurant} = props
+  const {clearSelected, refProp, restaurant} = props
   const classes = useStyles()
+
+  const handleClick = () => {
+    clearSelected()
+  }
 
   if (Object.keys(restaurant).length > 0) {
     return (
-      <div ref={props.refProp} className="restaurant-detail">
-        <div className="restaurant-detail row-1 box">
-          <div className="restaurant-detail row-1 column-1">
-            <div className="restaurant-detail name">{restaurant.name}</div>
-          </div>
-          <div className="restaurant-detail row-1 column-2">
-            <div className="restaurant-detail url">
-              <a href={restaurant.url}>Website</a>
+      <div ref={refProp} className="restaurant-detail">
+        <div className="row-1">
+          <div className="column-1">
+            <div className="name">{restaurant.name}</div>
+            <div className="detail-page">
+              <Link to={`/${restaurant.id}`} onClick={handleClick}>
+                See details
+              </Link>
             </div>
-            <div className="restaurant-detail address">
-              {restaurant.address}
+          </div>
+          <div className="column-2">
+            <div className="address">{restaurant.address}</div>
+            <div className="url">
+              <a href={restaurant.url}>Website</a>
             </div>
           </div>
         </div>
-        <div className="restaurant-detail row-2" />
-        {restaurant.photos.length > 0 && (
-          <div className="restaurant-detail row-3">
+        <div className="row-2" />
+        {restaurant.photos && restaurant.photos.length > 0 && (
+          <div className="row-3">
             <div className={classes.root}>
               <GridList className={classes.gridList} cols={2.5}>
                 {restaurant.photos.map((tile) => (
@@ -69,4 +79,8 @@ const mapState = (state) => ({
   restaurant: state.restaurants.selectedRestaurant,
 })
 
-export default connect(mapState)(RestaurantDetail)
+const mapDispatch = (dispatch) => ({
+  clearSelected: () => dispatch(setRestaurant({})),
+})
+
+export default connect(mapState, mapDispatch)(RestaurantDetail)

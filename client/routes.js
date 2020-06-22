@@ -1,38 +1,46 @@
-import React, {useEffect, useState} from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Route, Switch, withRouter} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import {Home, Login, Signup, SingleRestaurant, UserHome} from './components'
+import {
+  Home,
+  Login,
+  NotFound,
+  Signup,
+  SingleRestaurant,
+  UserHome,
+} from './components'
 import {fetchMe} from './store/user'
 import {fetchRestaurants} from './store/restaurants'
 
 // ---------- COMPONENT ---------- //
-const Routes = (props) => {
-  const {loadInitialData, isLoggedIn} = props
+class Routes extends Component {
+  componentDidMount() {
+    this.props.loadInitialData()
+  }
 
-  const [loginStatus, setLoginStatus] = useState(false)
-
-  useEffect(() => {
-    loadInitialData()
-  }, [loginStatus])
-
-  return (
-    <Switch>
-      {/* Routes available to all visitors */}
-      <Route path="/login" component={Login} />
-      <Route path="/signup" component={Signup} />
-      <Route path="/restaurants/:restaurantId" component={SingleRestaurant} />
-      {isLoggedIn && (
-        <Switch>
-          {/* Routes only available after logging in */}
-          <Route path="/home" component={UserHome} />
-        </Switch>
-      )}
-      {/* Displays Login component as a fallback */}
-      <Route path="/" component={Home} />
-    </Switch>
-  )
+  render() {
+    const {isLoggedIn} = this.props
+    return (
+      <Switch>
+        {/* Routes available to all visitors */}
+        <Route path="/login" component={Login} />
+        <Route path="/signup" component={Signup} />
+        {/* <Route exact path='/restaurants' component={Home} /> */}
+        <Route exact path="/:restaurantId" component={SingleRestaurant} />
+        <Route exact path="/" component={Home} />
+        {isLoggedIn && (
+          <Switch>
+            {/* Routes only available after logging in */}
+            <Route exact path="/home" component={UserHome} />
+          </Switch>
+        )}
+        {/* Displays Not Found component as a fallback */}
+        <Route component={NotFound} />
+      </Switch>
+    )
+  }
 }
 
 // ---------- CONTAINER ---------- //
@@ -46,6 +54,7 @@ const mapState = (state) => ({
 const mapDispatch = (dispatch) => ({
   loadInitialData: () => {
     dispatch(fetchMe())
+    dispatch(fetchRestaurants())
   },
 })
 

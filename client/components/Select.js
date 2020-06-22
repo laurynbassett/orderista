@@ -9,9 +9,44 @@ import Select from '@material-ui/core/Select'
 // import cuisineList from '../../server/api/cuisines';
 
 const useStyles = makeStyles((theme) => ({
-  formControl: {
+  root: {
     margin: theme.spacing(1),
+    fontFamily: 'Poppins',
     minWidth: 120,
+    '& > *': {
+      fontFamily: 'Poppins',
+    },
+    '& label': {
+      fontFamily: 'Open Sans',
+      fontWeight: '300',
+      marginRight: 10,
+      paddingRight: 10,
+    },
+    '& fieldset': {
+      fontFamily: 'Poppins',
+    },
+    '& label.Mui-focused': {
+      color: '#90a4ae',
+    },
+    '& .MuiOutlinedInput-root': {
+      '&:hover fieldset': {
+        borderColor: '#90a4ae',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#90a4ae',
+      },
+    },
+    '&:after': {
+      borderColor: '#f73378',
+    },
+  },
+  select: {
+    fontFamily: 'Open Sans',
+    fontWeight: '300',
+  },
+  menuItem: {
+    fontFamily: 'Open Sans',
+    fontWeight: '300',
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -21,20 +56,28 @@ const useStyles = makeStyles((theme) => ({
 const SelectDropdown = (props) => {
   const classes = useStyles()
   const {cuisines, handleChange, selectedCategory} = props
+  console.log('SELECT CUISINE', cuisines)
   return (
     <div>
-      <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-outlined-label">Category</InputLabel>
+      <FormControl variant="outlined" className={classes.root}>
+        <InputLabel>Category</InputLabel>
         <Select
+          className={classes.select}
           value={selectedCategory}
-          labelId="demo-simple-select-outlined-label"
-          id="demo-simple-select-outlined"
+          // labelId='demo-simple-select-outlined-label'
+          id="select-outlined"
           onChange={handleChange}
-          label="category"
+          label="cuisine"
         >
-          <MenuItem value="All">All</MenuItem>
+          <MenuItem className={classes.menuItem} value="All">
+            All
+          </MenuItem>
           {cuisines.sort().map((cuisine) => (
-            <MenuItem key={cuisine} value={cuisine}>
+            <MenuItem
+              key={cuisine}
+              className={classes.menuItem}
+              value={cuisine}
+            >
               {cuisine}
             </MenuItem>
           ))}
@@ -45,7 +88,6 @@ const SelectDropdown = (props) => {
 }
 
 const mapState = (state) => ({
-  cuisines: state.restaurants.cuisines,
   selectedCategory: state.restaurants.selectedCategory,
 })
 

@@ -11,7 +11,7 @@ const db = require('./db')
 const User = require('./db/models/user')
 const sessionStore = new SequelizeStore({db})
 const app = express()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 8080
 
 // Global Mocha hook for resource cleanup
 // Otherwise, Mocha v4+ never quits after tests
