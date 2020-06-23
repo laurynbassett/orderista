@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import {Popup} from 'react-mapbox-gl'
 import {makeStyles} from '@material-ui/core/styles'
 import {
@@ -45,9 +45,10 @@ const MapPopup = (props) => {
   const classes = useStyles()
 
   const handleClick = () => {
-    const restaurantId = selected.id
-    history.push(`/${restaurantId}`)
+    // const restaurantId = selected.id
+    // history.push(`/restaurants/${restaurantId}`)
     clearSelected()
+    console.log('CLEARED')
   }
 
   if (Object.keys(selected).length > 0) {
@@ -76,14 +77,16 @@ const MapPopup = (props) => {
               >
                 quick view
               </Button>
-              <Button
-                className={classes.button}
-                type="button"
-                size="small"
-                onClick={handleClick}
-              >
-                see details
-              </Button>
+              <Link to={`/restaurants/${selected.id}`}>
+                <Button
+                  className={classes.button}
+                  type="button"
+                  size="small"
+                  onClick={handleClick}
+                >
+                  see details
+                </Button>
+              </Link>
             </CardContent>
           </div>
           {selected.image && (

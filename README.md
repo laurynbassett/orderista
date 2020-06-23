@@ -12,11 +12,11 @@ I used React, Redux, Express, Sequelize and PostgreSQL as the basis for Orderist
 
 _Home Page_
 
-![Home Page](/public/screenshots/home.png)
+<img src="/screenshots/home.gif" alt='home' width='1000' height="600" />
 
 _Single Restaurant Page_
 
-![Single Restaurant Page](/public/screenshots/single-restaurant.png)
+<img src="/public/screenshots/single-restaurant.gif" alt='single-restaurant' width='1000' height="600" />
 
 ---
 

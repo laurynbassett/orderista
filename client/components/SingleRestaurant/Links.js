@@ -10,7 +10,9 @@ const Links = (props) => {
     <Paper variant="outlined">
       <div className="website">
         <Launch />
-        <a href={restaurant.url}>Website</a>
+        <a href={restaurant.url} target="_blank" rel="noopener noreferrer">
+          Website
+        </a>
       </div>
       <Divider variant="middle" />
       <div className="directions">
